@@ -38,7 +38,7 @@ Before uploading your PR, test all features one last time to check if there are 
 
 ## 🚀 Used By
 
-TBA
+[Echo's Dotfiles](https://github.com/CallMeEchoCodes/dotfiles)
 
 
 ## 📜 License
