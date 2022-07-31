@@ -102,7 +102,11 @@ sub_add() {
             exit
         fi
         cat dossier.config.json | jq ".files += [{\"name\": \"$NAME\", \"location\": \"$LOCATION\", \"type\": \"$FILEFOLDER\"}]" | tee 'dossier.config.json' &>/dev/null
-        echo -e "\e[38;5;212m${PWD}/${NAME} will be symlinked to ${LOCATION}/${NAME} next time you install!\e[0m"
+        if [ "$FILEFOLDER" == 'same' ]; then
+            echo -e "\e[38;5;212m${PWD}/${NAME} will be symlinked to ${LOCATION}/${NAME} next time you install!\e[0m"
+        else
+            echo -e "\e[38;5;212m${PWD}/${NAME} will be symlinked to $LOCATION next time you install!\e[0m "
+        fi
     else
         echo "This directory does not have a dossier config!"
     fi
