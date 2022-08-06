@@ -30,7 +30,7 @@ Dossier is open source, so you can create a pull request (PR). Simply `git clone
 ### Setup
 
 Fork `main` branch into your personal repository. Clone it to local computer.
-Be sure that you have the [gum dependency](https://github.com/charmbracelet/gum).
+Be sure that you have [gum](https://github.com/charmbracelet/gum) as it's required for the script.
 ```sh
 $ git clone https://github.com/CallMeEchoCodes/Dossier.git
 ```
@@ -45,7 +45,7 @@ Before uploading your PR, test all features one last time to check if there are 
 
 ## 🚀 Used By
 
-[Echo's Dotfiles](https://github.com/CallMeEchoCodes/dotfiles)
+[Echo's Dotfiles](https://github.com/CallMeEchoCodes/dotfiles)<br />
 [Kawaegle's Dotfile](coming soon)
 
 
