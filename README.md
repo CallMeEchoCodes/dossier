@@ -21,6 +21,7 @@ Dossier is a tool that symlinks your dotfiles to where they should be. Allowing 
 Arch linux: `<your-aur-manager> -S dossier`<br />
 Anything else: 
 ```sh
+# Install https://github.com/charmbracelet/gum using the guide in the README.MD
 git clone https://github.com/CallMeEchoCodes/Dossier.git
 sudo ln -s ./Dossier/dossier /usr/bin/
 ```
