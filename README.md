@@ -39,7 +39,7 @@ Before uploading your PR, test all features one last time to check if there are 
 ## 🚀 Used By
 
 [Echo's Dotfiles](https://github.com/CallMeEchoCodes/dotfiles)
-[Kawaegle's Dotfile](coming soon)
+[Kawaegle's Dotfile](https://github.com/Kawaegle/dotfile)
 
 
 ## 📜 License
