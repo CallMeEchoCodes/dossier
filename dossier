@@ -55,6 +55,30 @@ sub_install() {
     fi
 }
 
+sub_preview() {
+    if [ -f "./dossier.config.json" ]; then
+        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+            _jq() {
+                printf %s "${row}" | base64 --decode | jq -r "${1}"
+            }
+            NAME="$(_jq '.name')"
+            LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
+            if [ -h "${LOCATION}/${NAME}" ]; then
+                echo -e "\e[38;5;212mLink Exists ${PWD}/${NAME} -> ${LOCATION}/${NAME}\e[0m"
+            else
+                if [ "$(_jq '.type')" == 'same' ]; then
+                    echo -e "\e[38;5;212m${PWD}/${NAME} -> ${LOCATION}/${NAME}\e[0m"
+                else
+                    echo -e "\e[38;5;212m${PWD}/${NAME} -> ${LOCATION}\e[0m"
+                fi
+            fi
+        done &&
+        mkdir -p "$HOME/.config/"
+    else 
+        echo "This directory does not have a dossier config!"
+    fi
+}
+
 sub_reinstall() {
     if [ -f "./dossier.config.json" ]; then
         gum confirm "Are you sure you want to reinstall these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
