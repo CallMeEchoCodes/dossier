@@ -14,23 +14,30 @@
 - [License](#-license)
 
 
-
 ## 🤖 Why Use Dossier?
 Dossier is a tool that symlinks your dotfiles to where they should be. Allowing you to setup a computer really fast! While other alternatives exist Dossier aims to be simpler than other alternatives with a good user experience and really fast speeds.
 
+## :wrench: Installing
+Arch linux: `<your-aur-manager> -S dossier`<br />
+Anything else: 
+```sh
+# Install https://github.com/charmbracelet/gum using the guide in the README.MD
+git clone https://github.com/CallMeEchoCodes/Dossier.git
+sudo ln -s ./Dossier/dossier /usr/bin/
+```
 ## 🔧 Contributing
 Dossier is open source, so you can create a pull request (PR). Simply `git clone` and your ready to go!
 ### Setup
 
 Fork `main` branch into your personal repository. Clone it to local computer.
-
+Be sure that you have [gum](https://github.com/charmbracelet/gum) as it's required for the script.
 ```sh
-$ git clone https://github.com/{your-personal-repo}/Dossier.git
+git clone https://github.com/CallMeEchoCodes/Dossier.git
 ```
 
 ### Develop
 
-Simply make your changes and submit a PR
+Fork and simply make your changes and submit a PR
 ### Pull Request
 
 Before uploading your PR, test all features one last time to check if there are any errors. If it has no errors, commit and push it!
@@ -38,7 +45,8 @@ Before uploading your PR, test all features one last time to check if there are 
 
 ## 🚀 Used By
 
-TBA
+[Echo's Dotfiles](https://github.com/CallMeEchoCodes/dotfiles)<br />
+[Kawaegle's Dotfiles](https://github.com/kawaegle/dotfile)
 
 
 ## 📜 License
