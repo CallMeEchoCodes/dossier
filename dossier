@@ -54,6 +54,52 @@ sub_install() {
         echo "This directory does not have a dossier config!"
     fi
 }
+
+sub_reinstall() {
+    if [ -f "./dossier.config.json" ]; then
+        gum confirm "Are you sure you want to reinstall these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
+        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+                _jq() {
+                    printf %s "${row}" | base64 --decode | jq -r "${1}"
+                }
+                NAME="$(_jq '.name')"
+                LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
+            if [ "$(_jq '.type')" == 'same' ]; then
+                rm -rf "${LOCATION:?}/${NAME}"
+            else
+                rm -f "${LOCATION:?}"
+            fi
+        done &&
+        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+            _jq() {
+                printf %s "${row}" | base64 --decode | jq -r "${1}"
+            }
+            NAME="$(_jq '.name')"
+            LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
+            if [ ! -h "${LOCATION}/${NAME}" ]; then
+                if [ "$(_jq '.type')" == 'same' ]; then
+                    echo -e "\e[38;5;212m${PWD}/${NAME} -> ${LOCATION}/${NAME}\e[0m"
+                    rm -rf "${LOCATION:?}/${NAME}" &>/dev/null
+                    ln -s "${PWD}/${NAME}" "${LOCATION}/${NAME}" &>/dev/null
+                else
+                    echo -e "\e[38;5;212m${PWD}/${NAME} -> ${LOCATION}\e[0m"
+                    rm -rf "${LOCATION:?}" &>/dev/null
+                    ln -s "${PWD}/${NAME}" "${LOCATION}" &>/dev/null
+                fi
+            fi
+        done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
+        for row in $(cat dossier.config.json | jq -r '.commands[] | @base64'); do
+            _jq() {
+                printf %s "${row}" | base64 --decode | jq -r "${1}"
+            }
+            COMMAND="$(_jq '.command')"
+            MESSAGE="$(_jq '.message')"
+            gum spin --title "$MESSAGE" -s line -- bash -c "$COMMAND" && echo -e "\e[38;5;114m$(_jq '.donemessage')\e[0m"
+        done && mkdir -p "$HOME/.config/"
+    else 
+        echo "This directory does not have a dossier config!"
+    fi
+}
   
 sub_uninstall() {
     if [ ! -f "$HOME/.config/dossier.lock" ]; then 
