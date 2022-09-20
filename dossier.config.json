@@ -1,0 +1,86 @@
+{
+  "files": [
+    {
+      "name": "neovim",
+      "location": "~/.config/nvim",
+      "type": "different"
+    },
+    {
+      "name": "zsh/zshrc",
+      "location": "~/.zshrc",
+      "type": "different"
+    },
+    {
+      "name": "Xresources",
+      "location": "~/.Xresources",
+      "type": "different"
+    },
+    {
+      "name": "zsh/aliasrc",
+      "location": "~/.aliasrc",
+      "type": "different"
+    },
+    {
+      "name": "gitconfig",
+      "location": "~/.gitconfig",
+      "type": "different"
+    },
+    {
+      "name": "main.i3config",
+      "location": "~/.config/i3/config",
+      "type": "different"
+    },
+    {
+      "name": "polybar",
+      "location": "~/.config",
+      "type": "same"
+    },
+    {
+      "name": "kitty",
+      "location": "~/.config",
+      "type": "same"
+    },
+    {
+      "name": "rofi",
+      "location": "~/.config",
+      "type": "same"
+    },
+    {
+      "name": "rofithemes",
+      "location": "~/.local/share/rofi/themes",
+      "type": "different"
+    },
+    {
+      "name": "dunst",
+      "location": "~/.config",
+      "type": "same"
+    },
+    {
+      "name": "powercordthemes",
+      "location": "~/.dotfiles/powercord/src/Powercord/themes",
+      "type": "different"
+    },
+    {
+      "name": "powercordplugins",
+      "location": "~/.dotfiles/powercord/src/Powercord/plugins",
+      "type": "different"
+    },
+    {
+      "name": "picom.conf",
+      "location": "~/.config",
+      "type": "same"
+    },
+    {
+      "name": "theming/catppuccin-spotify-tui/mocha.yml",
+      "location": "~/.config/spotify-tui/config.yaml",
+      "type": "different"
+    }
+  ],
+  "commands": [
+    {
+      "command": "git submodule update --init --recursive",
+      "message": "Installing submodules",
+      "donemessage": "Installed submodules"
+    }
+  ]
+}

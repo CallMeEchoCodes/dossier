@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
-# shellcheck source=/dev/null
-# shellcheck disable=2002
 
 ProgName=$(basename "$0")
 Version="0.0.3"
-  
+
 sub_help(){
     echo -e "\e[38;5;212;1mUsage:\e[0;38;5;114m $ProgName \e[0;38;5;230;1m<\e[0;38;5;230msubcommand\e[1m>\e[0m"
     echo -e "\e[38;5;212;1mSubcommands:\e[0m"
@@ -33,15 +31,16 @@ sub_v() {
 }
 
 sub_install() {
-    if [ -f "$HOME/.config/dossier.lock" ]; then 
+    if [ -f "$HOME/.config/dossier.lock" ]; then
         echo "Dossier has already installed your dotfiles! Please use dossier uninstall"
         exit
     fi
     if [ -f "./dossier.config.json" ]; then
+        IFS=$'\n'
         gum confirm "Are you sure you want to install these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
-        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -59,15 +58,15 @@ sub_install() {
                 fi
             fi
         done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
-        for row in $(cat dossier.config.json | jq -r '.commands[] | @base64'); do
+        for row in $(jq -Mrc '.commands[]' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             COMMAND="$(_jq '.command')"
             MESSAGE="$(_jq '.message')"
             gum spin --title "$MESSAGE" -s line -- bash -c "$COMMAND" && echo -e "\e[38;5;114m$(_jq '.donemessage')\e[0m"
         done && mkdir -p "$HOME/.config/"
-    else 
+    else
         echo "This directory does not have a dossier config!"
     fi
 }
@@ -78,9 +77,10 @@ sub_i() {
 
 sub_preview() {
     if [ -f "./dossier.config.json" ]; then
-        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+        IFS=$'\n'
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -95,7 +95,7 @@ sub_preview() {
             fi
         done &&
         mkdir -p "$HOME/.config/"
-    else 
+    else
         echo "This directory does not have a dossier config!"
     fi
 }
@@ -106,10 +106,11 @@ sub_p() {
 
 sub_reinstall() {
     if [ -f "./dossier.config.json" ]; then
+        IFS=$'\n'
         gum confirm "Are you sure you want to reinstall these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
-        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
                 _jq() {
-                    printf %s "${row}" | base64 --decode | jq -r "${1}"
+                    jq -Mrc "${1}" <<< "${row}"
                 }
                 NAME="$(_jq '.name')"
                 LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -119,9 +120,9 @@ sub_reinstall() {
                 rm -f "${LOCATION:?}"
             fi
         done &&
-        for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -137,29 +138,30 @@ sub_reinstall() {
                 fi
             fi
         done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
-        for row in $(cat dossier.config.json | jq -r '.commands[] | @base64'); do
+        for row in $(jq -Mrc '.commands[]' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             COMMAND="$(_jq '.command')"
             MESSAGE="$(_jq '.message')"
             gum spin --title "$MESSAGE" -s line -- bash -c "$COMMAND" && echo -e "\e[38;5;114m$(_jq '.donemessage')\e[0m"
         done && mkdir -p "$HOME/.config/"
-    else 
+    else
         echo "This directory does not have a dossier config!"
     fi
 }
-  
+
 sub_uninstall() {
-    if [ ! -f "$HOME/.config/dossier.lock" ]; then 
+    if [ ! -f "$HOME/.config/dossier.lock" ]; then
         echo "Dossier hasn't installed your dotfiles yet!"
         exit
     fi
+    IFS=$'\n'
     gum confirm "Are you sure you want to uninstall these dotfiles?
      This could lead to a broken desktop!" &&
-    for row in $(cat dossier.config.json | jq -r '.files[] | @base64'); do
+    for row in $(jq -Mrc '.files[]' < dossier.config.json); do
         _jq() {
-            printf %s "${row}" | base64 --decode | jq -r "${1}"
+            jq -Mrc "${1}" <<< "${row}"
         }
         NAME="$(_jq '.name')"
         LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -180,7 +182,7 @@ sub_add() {
             echo "You need to specify what file to track!"
             exit
         fi
-        EXISTS=$(cat dossier.config.json | jq ".files[] | select(.name == \"$NAME\")")
+        EXISTS=$(jq ".files[] | select(.name == \"$NAME\")" < dossier.config.json)
         if [ -n "$EXISTS" ]; then
             echo "That file has already been added!"
             exit
@@ -196,7 +198,7 @@ sub_add() {
             echo "You need to specify if this is a file or folder!"
             exit
         fi
-        cat dossier.config.json | jq ".files += [{\"name\": \"$NAME\", \"location\": \"$LOCATION\", \"type\": \"$FILEFOLDER\"}]" | tee 'dossier.config.json' &>/dev/null
+        jq ".files += [{\"name\": \"$NAME\", \"location\": \"$LOCATION\", \"type\": \"$FILEFOLDER\"}]" < dossier.config.json | tee 'dossier.config.json' &>/dev/null
         if [ "$FILEFOLDER" == 'same' ]; then
             echo -e "\e[38;5;212m${PWD}/${NAME} will be symlinked to ${LOCATION}/${NAME} next time you install!\e[0m"
         else
@@ -218,7 +220,7 @@ sub_remove() {
             echo "You need to specify what file to stop tracking!"
             exit
         fi
-        cat dossier.config.json | jq "del(.files[] | select(.name == \"$NAME\"))" | tee 'dossier.config.json' &>/dev/null
+        jq "del(.files[] | select(.name == \"$NAME\"))" < dossier.config.json | tee 'dossier.config.json' &>/dev/null
     else
         echo "This directory does not have a dossier config!"
     fi
