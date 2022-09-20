@@ -39,7 +39,7 @@ sub_install() {
         gum confirm "Are you sure you want to install these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
         for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                base64 --decode <<< "${row}" | jq -r "${1}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -59,7 +59,7 @@ sub_install() {
         done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
         for row in $(jq -r '.commands[] | @base64' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                base64 --decode <<< "${row}" | jq -r "${1}"
             }
             COMMAND="$(_jq '.command')"
             MESSAGE="$(_jq '.message')"
@@ -78,7 +78,7 @@ sub_preview() {
     if [ -f "./dossier.config.json" ]; then
         for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                base64 --decode <<< "${row}" | jq -r "${1}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -107,7 +107,7 @@ sub_reinstall() {
         gum confirm "Are you sure you want to reinstall these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
         for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
                 _jq() {
-                    printf %s "${row}" | base64 --decode | jq -r "${1}"
+                    base64 --decode <<< "${row}" | jq -r "${1}"
                 }
                 NAME="$(_jq '.name')"
                 LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -119,7 +119,7 @@ sub_reinstall() {
         done &&
         for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                base64 --decode <<< "${row}" | jq -r "${1}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -137,7 +137,7 @@ sub_reinstall() {
         done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
         for row in $(jq -r '.commands[] | @base64' < dossier.config.json); do
             _jq() {
-                printf %s "${row}" | base64 --decode | jq -r "${1}"
+                base64 --decode <<< "${row}" | jq -r "${1}"
             }
             COMMAND="$(_jq '.command')"
             MESSAGE="$(_jq '.message')"
@@ -157,7 +157,7 @@ sub_uninstall() {
      This could lead to a broken desktop!" &&
     for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
         _jq() {
-            printf %s "${row}" | base64 --decode | jq -r "${1}"
+            base64 --decode <<< "${row}" | jq -r "${1}"
         }
         NAME="$(_jq '.name')"
         LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
