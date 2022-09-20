@@ -2,7 +2,7 @@
 
 ProgName=$(basename "$0")
 Version="0.0.3"
-  
+
 sub_help(){
     echo "Usage: $ProgName <subcommand>"
     echo "Subcommands:"
@@ -29,15 +29,16 @@ sub_v() {
 }
 
 sub_install() {
-    if [ -f "$HOME/.config/dossier.lock" ]; then 
+    if [ -f "$HOME/.config/dossier.lock" ]; then
         echo "Dossier has already installed your dotfiles! Please use dossier uninstall"
         exit
     fi
     if [ -f "./dossier.config.json" ]; then
+        IFS=$'\n'
         gum confirm "Are you sure you want to install these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
-        for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
             _jq() {
-                base64 --decode <<< "${row}" | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -55,15 +56,15 @@ sub_install() {
                 fi
             fi
         done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
-        for row in $(jq -r '.commands[] | @base64' < dossier.config.json); do
+        for row in $(jq -Mrc '.commands[]' < dossier.config.json); do
             _jq() {
-                base64 --decode <<< "${row}" | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             COMMAND="$(_jq '.command')"
             MESSAGE="$(_jq '.message')"
             gum spin --title "$MESSAGE" -s line -- bash -c "$COMMAND" && echo -e "\e[38;5;114m$(_jq '.donemessage')\e[0m"
         done && mkdir -p "$HOME/.config/"
-    else 
+    else
         echo "This directory does not have a dossier config!"
     fi
 }
@@ -74,9 +75,10 @@ sub_i() {
 
 sub_preview() {
     if [ -f "./dossier.config.json" ]; then
-        for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
+        IFS=$'\n'
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
             _jq() {
-                base64 --decode <<< "${row}" | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -91,7 +93,7 @@ sub_preview() {
             fi
         done &&
         mkdir -p "$HOME/.config/"
-    else 
+    else
         echo "This directory does not have a dossier config!"
     fi
 }
@@ -102,10 +104,11 @@ sub_p() {
 
 sub_reinstall() {
     if [ -f "./dossier.config.json" ]; then
+        IFS=$'\n'
         gum confirm "Are you sure you want to reinstall these dotfiles?" && mkdir -p "$HOME/.config/dossier" && touch "$HOME/.config/dossier.lock" &&
-        for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
                 _jq() {
-                    base64 --decode <<< "${row}" | jq -r "${1}"
+                    jq -Mrc "${1}" <<< "${row}"
                 }
                 NAME="$(_jq '.name')"
                 LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -115,9 +118,9 @@ sub_reinstall() {
                 rm -f "${LOCATION:?}"
             fi
         done &&
-        for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
+        for row in $(jq -Mrc '.files[]' < dossier.config.json); do
             _jq() {
-                base64 --decode <<< "${row}" | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             NAME="$(_jq '.name')"
             LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
@@ -133,29 +136,30 @@ sub_reinstall() {
                 fi
             fi
         done && echo -e "\e[38;5;114mAll links have been set up\e[0m" &&
-        for row in $(jq -r '.commands[] | @base64' < dossier.config.json); do
+        for row in $(jq -Mrc '.commands[]' < dossier.config.json); do
             _jq() {
-                base64 --decode <<< "${row}" | jq -r "${1}"
+                jq -Mrc "${1}" <<< "${row}"
             }
             COMMAND="$(_jq '.command')"
             MESSAGE="$(_jq '.message')"
             gum spin --title "$MESSAGE" -s line -- bash -c "$COMMAND" && echo -e "\e[38;5;114m$(_jq '.donemessage')\e[0m"
         done && mkdir -p "$HOME/.config/"
-    else 
+    else
         echo "This directory does not have a dossier config!"
     fi
 }
-  
+
 sub_uninstall() {
-    if [ ! -f "$HOME/.config/dossier.lock" ]; then 
+    if [ ! -f "$HOME/.config/dossier.lock" ]; then
         echo "Dossier hasn't installed your dotfiles yet!"
         exit
     fi
+    IFS=$'\n'
     gum confirm "Are you sure you want to uninstall these dotfiles?
      This could lead to a broken desktop!" &&
-    for row in $(jq -r '.files[] | @base64' < dossier.config.json); do
+    for row in $(jq -Mrc '.files[]' < dossier.config.json); do
         _jq() {
-            base64 --decode <<< "${row}" | jq -r "${1}"
+            jq -Mrc "${1}" <<< "${row}"
         }
         NAME="$(_jq '.name')"
         LOCATION="$(_jq '.location' | sed "s|^~|$HOME|")"
