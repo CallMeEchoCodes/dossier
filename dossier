@@ -6,13 +6,14 @@ ProgName=$(basename "$0")
 Version="0.0.3"
   
 sub_help(){
-    echo "Usage: $ProgName <subcommand>"
-    echo "Subcommands:"
-    echo "    install     Install dotfiles in the current directory"
-    echo "    uninstall   Uninstall dotfiles in the current directory"
-    echo "    init        Create a basic dossier.config.json"
-    echo "    add         Add a file to your dossier config"
-    echo "    remove      Remove a file from your dossier config"
+    echo -e "\e[38;5;212;1mUsage:\e[0;38;5;114m $ProgName \e[0;38;5;230;1m<\e[0;38;5;230msubcommand\e[1m>\e[0m"
+    echo -e "\e[38;5;212;1mSubcommands:\e[0m"
+    echo -e "    \e[38;5;114minstall     \e[38;5;230;1mInstall dotfiles in the current directory\e[0m"
+    echo -e "    \e[38;5;114muninstall   \e[38;5;230;1mUninstall dotfiles in the current directory\e[0m"
+     echo -e "    \e[38;5;114mreinstall   \e[38;5;230;1mReinstall dotfiles in the current directory\e[0m"
+    echo -e "    \e[38;5;114minit        \e[38;5;230;1mCreate a basic dossier.config.json\e[0m"
+    echo -e "    \e[38;5;114madd         \e[38;5;230;1mAdd a file to your dossier config\e[0m"
+    echo -e "    \e[38;5;114mremove      \e[38;5;230;1mRemove a file from your dossier config\e[0m"
     echo ""
 }
 
@@ -21,9 +22,10 @@ sub_h(){
 }
 
 sub_version() {
-    echo -e "\e[1mVersion               \e[38;5;212m$Version\e[0m"
-    echo -e "\e[1mCurrent Maintainer    \e[38;5;212mCallMeEcho\e[0m"
-    echo -e "\e[1mContributors          \e[38;5;212mkawaegle"
+    echo -e "\e[38;5;114;1mVersion               \e[38;5;212m$Version\e[0m"
+    echo -e "\e[38;5;114;1mCurrent Maintainer    \e[38;5;212mCallMeEcho\e[0m\n"
+    echo -e "\e[38;5;114;1mContributors          \e[38;5;212mkawaegle
+                      \e[38;5;212mmekb the turtle\e[0m"
 }
 
 sub_v() {
