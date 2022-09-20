@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# shellcheck source=/dev/null
-# shellcheck disable=2002
 
 ProgName=$(basename "$0")
 Version="0.0.3"
