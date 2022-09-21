@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-ProgName=$(basename "$0")
+ProgName="$(basename -- "$0")"
+ProgName="${ProgName:-dossier}"
 Version="0.0.3"
 
 sub_help(){
