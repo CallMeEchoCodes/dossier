@@ -2,7 +2,7 @@
 
 ProgName="$(basename -- "$0")"
 ProgName="${ProgName:-dossier}"
-Version="0.0.3"
+Version="0.0.4"
 
 sub_help(){
     echo -e "\e[38;5;212;1mUsage:\e[0;38;5;114m $ProgName \e[0;38;5;230;1m<\e[0;38;5;230msubcommand\e[1m>\e[0m"
