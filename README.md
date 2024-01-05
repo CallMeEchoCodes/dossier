@@ -2,7 +2,7 @@
 
 > :rocket: A lightweight dotfile bootstrapper!
 
-![aur version](https://img.shields.io/aur/version/dossier) [![license](https://img.shields.io/github/license/CallMeEchoCodes/Dossier)](https://github.com/CallMeEchoCodes/Dossier/blob/master/LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/CallMeEchoCodes/Dossier/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+![aur version](https://img.shields.io/aur/version/dossier) [![license](https://img.shields.io/github/license/CallMeEchoCodes/dossier)](https://github.com/CallMeEchoCodes/dossier/blob/master/LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/CallMeEchoCodes/dossier/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 <img src="https://i.imgur.com/mj9VkpM.png" />
 
 
@@ -22,8 +22,8 @@ Arch linux: `<your-aur-manager> -S dossier`<br />
 Anything else: 
 ```sh
 # Install https://github.com/charmbracelet/gum using the guide in the README.MD
-git clone https://github.com/CallMeEchoCodes/Dossier.git
-sudo ln -s ./Dossier/dossier /usr/bin/
+git clone https://github.com/CallMeEchoCodes/dossier.git
+sudo ln -s ./dossier/dossier /usr/bin/
 ```
 ## 🔧 Contributing
 Dossier is open source, so you can create a pull request (PR). Simply `git clone` and your ready to go!
@@ -49,4 +49,4 @@ Before uploading your PR, test all features one last time to check if there are 
 
 ## 📜 License
 
-This software is licensed under the [MIT License](https://github.com/CallMeEchoCodes/Dossier/blob/master/LICENSE).
+This software is licensed under the [MPL-2.0 License](https://github.com/CallMeEchoCodes/dossier/blob/master/LICENSE).
